@@ -1,11 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from django.contrib import auth
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy, reverse
 from products.models import Basket
 from django.views.generic.edit import CreateView, UpdateView
 from users.models import User
-
+from django.contrib.auth.views import LoginView
 
 class UserRegistrationView(CreateView):
     model = User
@@ -18,25 +18,11 @@ class UserRegistrationView(CreateView):
         context['title'] = 'Store - Регистрация'
         return context 
 
-def login(request):
-    if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = auth.authenticate(username=username, password=password)
-            if user:
-                auth.login(request, user)
-                return HttpResponseRedirect(reverse('index'))
-            else:
-                form.add_error(None, "Неверный логин или пароль")  # Сообщение об ошибке
-    else:
-        form = UserLoginForm()
-    
-    context = {'form': form}
-    return render(request, 'users/login.html', context)
+class UserLoginView(LoginView):
+    template_name = 'users/login.html'
+    form_class = UserLoginForm
 
-class UserProfileUpdateView(UpdateView):
+class UserProfileView(UpdateView):
     model = User
     template_name = 'users/profile.html'
     form_class = UserProfileForm
@@ -50,9 +36,9 @@ class UserProfileUpdateView(UpdateView):
         context['baskets'] = Basket.objects.filter(user = self.object)
         return context
 
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('index'))
+# def logout(request):
+#     auth.logout(request)
+#     return HttpResponseRedirect(reverse('index'))
 
 
     
@@ -91,3 +77,21 @@ def logout(request):
 #         'baskets': Basket.objects.filter(user = request.user)
 #         }
 #     return render(request, 'users/profile.html', context)
+
+# def login(request):
+#     if request.method == 'POST':
+#          form = UserLoginForm(data=request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             password = form.cleaned_data['password']
+#             user = auth.authenticate(username=username, password=password)
+#             if user:
+#                 auth.login(request, user)
+#                 return HttpResponseRedirect(reverse('index'))
+#             else:
+#                 form.add_error(None, "Неверный логин или пароль")  # Сообщение об ошибке
+#     else:
+#         form = UserLoginForm()
+    
+#     context = {'form': form}
+#     return render(request, 'users/login.html', context)
