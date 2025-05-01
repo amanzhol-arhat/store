@@ -13,7 +13,7 @@ class EmailVerification(models.Model):
     code = models.UUIDField(unique=True)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
-    expiration = models.DateField()
+    expiration = models.DateTimeField()
     
     
     def __str__(self):
@@ -31,10 +31,10 @@ class EmailVerification(models.Model):
         send_mail(
                     subject = subject,
                     message = message,
-                    from_email = "from@example.com",
+                    from_email = settings.EMAIL_HOST_USER,
                     recipient_list = [self.user.email],
                     fail_silently=False,
                     )
     
     def is_expired(self):
-        return True if now() >= self.expiration else False
+        return now() >= self.expiration

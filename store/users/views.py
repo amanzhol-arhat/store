@@ -35,11 +35,6 @@ class UserProfileView(TitleMixin, UpdateView):
     
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id, ))
-    
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        context['baskets'] = Basket.objects.filter(user = self.object)
-        return context
 
 class EmailVerificationView(TitleMixin, TemplateView):
     template_name = 'users/email_verification.html'
@@ -49,9 +44,9 @@ class EmailVerificationView(TitleMixin, TemplateView):
         code = kwargs.get('code')
         email = kwargs.get('email')
         user = get_object_or_404(User, email=email)
-        email_verification = EmailVerification.objects.filter(user=user, code=code).first()
+        email_verification = EmailVerification.objects.filter(user=user, code=code)
         
-        if email_verification and not email_verification.is_expired():
+        if email_verification and not email_verification.first().is_expired():
             user.is_verified_email = True
             user.save()
             return super().get(request, *args, **kwargs)

@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'products.context_proccesors.baskets',
             ],
         },
     },
@@ -139,7 +140,10 @@ LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-#Sending email
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'arhatamanjol@yandex.kz'
+EMAIL_HOST_PASSWORD = 'nypjbeebukzjmhlb'
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
 
