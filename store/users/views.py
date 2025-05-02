@@ -1,6 +1,5 @@
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from django.urls import reverse_lazy, reverse
-from products.models import Basket
 from django.views.generic.edit import CreateView, UpdateView
 from users.models import User, EmailVerification
 from django.contrib.auth.views import LoginView
@@ -40,11 +39,13 @@ class EmailVerificationView(TitleMixin, TemplateView):
     template_name = 'users/email_verification.html'
     title = 'Store - Подтверждение почты'   
     
+    
     def get(self, request, *args, **kwargs):
         code = kwargs.get('code')
         email = kwargs.get('email')
         user = get_object_or_404(User, email=email)
         email_verification = EmailVerification.objects.filter(user=user, code=code)
+
         
         if email_verification and not email_verification.first().is_expired():
             user.is_verified_email = True
@@ -52,4 +53,4 @@ class EmailVerificationView(TitleMixin, TemplateView):
             return super().get(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse('index'))
-
+        
