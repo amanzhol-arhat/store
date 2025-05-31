@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Django: Run Server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/store/manage.py",  // путь до manage.py
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "justMyCode": true,
+            "autoStartBrowser": false
+        },
+        {
+            "name": "Django: Run Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/store/manage.py",
+            "args": [
+                "test",
+                "--verbosity=2"
+            ],
+            "django": true,
+            "justMyCode": true
+        }
+    ]
+}
