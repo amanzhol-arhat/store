@@ -133,7 +133,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
-                    )
+)
 
 
 MEDIA_URL = '/media/'
@@ -144,7 +144,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#USERS
+# USERS
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -158,7 +158,7 @@ LOGOUT_REDIRECT_URL = '/'
 # EMAIL_USE_TLS = False
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-#oauth2
+# oauth2
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
