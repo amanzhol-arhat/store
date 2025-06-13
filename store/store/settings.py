@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'django.contrib.sites',
     'allauth.socialaccount',
+    'debug_toolbar'
 
 ]
 
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
+     "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
 ROOT_URLCONF = 'store.urls'
@@ -80,6 +82,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'store.wsgi.application'
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost',
+]
 
 
 # Database
@@ -171,5 +177,17 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': [
             'user',
         ],
+    }
+}
+
+
+#CASH FOR REDIS
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
     }
 }
