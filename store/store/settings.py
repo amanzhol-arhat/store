@@ -156,13 +156,13 @@ LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# EMAIL_HOST = 'smtp.yandex.ru'
-# EMAIL_PORT = 465
-# EMAIL_HOST_USER = 'arhatamanjol@yandex.kz'
-# EMAIL_HOST_PASSWORD = 'nypjbeebukzjmhlb'
-# EMAIL_USE_SSL = True
-# EMAIL_USE_TLS = False
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'arhatamanjol@yandex.kz'
+EMAIL_HOST_PASSWORD = 'nypjbeebukzjmhlb'
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # oauth2
 AUTHENTICATION_BACKENDS = [
@@ -191,3 +191,7 @@ CACHES = {
         }
     }
 }
+
+#CELERY
+CELERY_BROKER_URL = 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001/0'
+CELERY_RESULT_BACKEND = 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001/0'
