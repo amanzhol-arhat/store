@@ -23,8 +23,8 @@ class ProductsListView(TitleMixin, ListView):
         category_id = self.kwargs.get('category_id')
         return queryset.filter(category_id=category_id) if category_id else queryset
 
-    def get_context_data(self, **kwargs):
-        context = super(ProductsListView, self).get_context_data(**kwargs)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProductsListView, self).get_context_data()
         context['categories'] = ProductCategory.objects.all()
         return context
 
