@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-DOMAIN_NAME = 'http://localhost:8000'
+DOMAIN_NAME = 'http://127.0.0.1:8000/'
 
 
 # Application definition
@@ -197,3 +197,7 @@ CACHES = {
 #CELERY
 CELERY_BROKER_URL = 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001/0'
 CELERY_RESULT_BACKEND = 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001/0'
+
+#STRIPE
+STRIPE_PUBLIC_KEY = 'pk_test_51RiVVk2LaTdSMOWyzR44iKZovaSgOAVlMJkeFx3Vc2fjg8o3D4t2qjrmrWhb3UnQ6goctLPGuZj6RzR8WQSdrLP4007u6DOQII'
+STRIPE_SECRET_KEY = 'sk_test_51RiVVk2LaTdSMOWyrXubRuS23ymebQKYcNfomDT93SC1O96UAl4hFB5mUZfbwyylOh6YgIPNnuMuizCbDVJszbhv00t4CVMyrA'
