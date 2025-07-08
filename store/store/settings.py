@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'django.contrib.sites',
     'allauth.socialaccount',
-    'debug_toolbar'
+    'debug_toolbar',
+     'django.contrib.humanize',
 
 ]
 
