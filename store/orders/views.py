@@ -10,6 +10,7 @@ from http import HTTPStatus
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from products.models import Basket
+from orders.models import Order
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -67,9 +68,11 @@ def stripe_webhook_view(request):
 
 
 def fulfill_order(session):
-    # TODO: Реализуй здесь свою логику
+    # import pdb
+    # pdb.set_trace()
     order_id = int(session.metadata.order_id)
-    print('Fulfilling order...')
+    order = Order.objects.get(id=order_id)
+    order.update_after_payment()
    
     
     

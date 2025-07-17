@@ -70,6 +70,7 @@ class Basket(models.Model):
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=0)
     created_timestamp = models.DateTimeField(auto_now_add=True)
+    
 
     objects = BasketQuerySet.as_manager()
 
@@ -78,3 +79,13 @@ class Basket(models.Model):
 
     def sum(self):
         return self.product.price * self.quantity
+    
+    def de_json(self):
+        basket_item = {
+            'product_name': self.product.name,
+            'quantity': self.quantity,
+            'price': float(self.product.price),
+            'sum': float(self.sum())
+            
+        }
+        return basket_item
