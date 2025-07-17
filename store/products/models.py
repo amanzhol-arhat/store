@@ -1,5 +1,9 @@
 from django.db import models
+import stripe
 from users.models import User
+from django.conf import settings
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class ProductCategory(models.Model):
@@ -21,14 +25,27 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='products_images')
     category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
-
+    stripe_product_price_id = models.CharField(max_length=128, null=True, blank=True)
+    
     class Meta:
         verbose_name = 'product'
         verbose_name_plural = 'products'
 
     def __str__(self):
         return f'Продукт: {self.name} | Категория: {self.category.name}'
+    
+    def save(self, force_insert = False, force_update = False, using = None, update_fields = None):
+        if not self.stripe_product_price_id:
+            stripe_product_price = self.create_stripe_product_price()
+            self.stripe_product_price_id = stripe_product_price['id']
+        super(Product, self).save(force_insert, force_update, using, update_fields)
 
+    def create_stripe_product_price(self):
+        stripe_product = stripe.Product.create(name = self.name)
+        stripe_product_price = stripe.Price.create(
+            product = stripe_product['id'], unit_amount=round(self.price * 100), currency='kzt')
+        return stripe_product_price
+        
 
 class BasketQuerySet(models.QuerySet):
     def total_sum(self):
@@ -36,6 +53,16 @@ class BasketQuerySet(models.QuerySet):
 
     def total_quantity(self):
         return sum(basket.quantity for basket in self)
+    
+    def stripe_products(self):
+        line_items = []
+        for basket in self:
+            item = {
+                'price': basket.product.stripe_product_price_id,
+                'quantity': basket.quantity,
+            }
+            line_items.append(item)
+        return line_items
 
 
 class Basket(models.Model):
