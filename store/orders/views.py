@@ -6,6 +6,7 @@ from common.views import TitleMixin
 import stripe
 from django.conf import settings
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from django.http import HttpResponseRedirect
 from http import HTTPStatus
 from django.views.decorators.csrf import csrf_exempt
@@ -32,6 +33,15 @@ class OrderListView(TitleMixin, ListView):
     def get_queryset(self):
         queryset = super(OrderListView, self).get_queryset()
         return queryset.filter(initiator=self.request.user)
+    
+class OrderDetailView(DetailView):
+    template_name = 'orders/order.html'
+    model = Order
+    
+    def get_context_data(self, **kwargs):
+        context = super(OrderDetailView, self).get_context_data(**kwargs)
+        context['title'] = f'Store - Заказ#{self.object.id}'
+        return context
 class OrderCreateView(TitleMixin, CreateView):
     template_name = 'orders/order-create.html'
     form_class = OrderForm
