@@ -14,8 +14,8 @@ class Order(models.Model):
         (ON_WAY, 'В пути'),
         (DELIVERED, 'Доставлен'),
     )
-    
-    
+
+
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     email = models.EmailField(max_length=256)
@@ -24,11 +24,11 @@ class Order(models.Model):
     basket_history = models.JSONField(default=dict)
     created = models.DateTimeField(auto_now_add=True)
     initiator = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    
+
     def __str__(self):
         return f'Order #{self.id}. {self.first_name} {self.last_name}'
-    
-    
+
+
     def update_after_payment(self):
         baskets = Basket.objects.filter(user=self.initiator)
         self.status = self.PAID
@@ -37,4 +37,4 @@ class Order(models.Model):
             'total_sum': float(baskets.total_sum()),
         }
         baskets.delete()
-        self.save()  
+        self.save()

@@ -7,6 +7,7 @@ from users.models import EmailVerification, User
 
 from celery import shared_task
 
+
 @shared_task
 def send_email_verification(user_id):
     user = User.objects.get(id=user_id)

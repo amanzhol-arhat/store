@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth.socialaccount',
     'debug_toolbar',
-     'django.contrib.humanize',
+    'django.contrib.humanize',
 
 ]
 
@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
-     "debug_toolbar.middleware.DebugToolbarMiddleware"
+    "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
 ROOT_URLCONF = 'store.urls'
@@ -164,7 +164,7 @@ EMAIL_HOST_USER = 'arhatamanjol@yandex.kz'
 EMAIL_HOST_PASSWORD = 'nypjbeebukzjmhlb'
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # oauth2
 AUTHENTICATION_BACKENDS = [
@@ -183,7 +183,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-#CASH FOR REDIS
+# CASH FOR REDIS
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -194,11 +194,11 @@ CACHES = {
     }
 }
 
-#CELERY
+# CELERY
 CELERY_BROKER_URL = 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001/0'
 CELERY_RESULT_BACKEND = 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001/0'
 
-#STRIPE
+# STRIPE
 STRIPE_PUBLIC_KEY = 'pk_test_51RiVVk2LaTdSMOWyzR44iKZovaSgOAVlMJkeFx3Vc2fjg8o3D4t2qjrmrWhb3UnQ6goctLPGuZj6RzR8WQSdrLP4007u6DOQII'
 STRIPE_SECRET_KEY = 'sk_test_51RiVVk2LaTdSMOWyrXubRuS23ymebQKYcNfomDT93SC1O96UAl4hFB5mUZfbwyylOh6YgIPNnuMuizCbDVJszbhv00t4CVMyrA'
 STRIPE_WEBHOOK_SECRET = 'whsec_caddf2e7682cf374caadb03e119424aa2c2983630f82353c6c82c2ee08090add'
