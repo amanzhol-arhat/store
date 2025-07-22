@@ -11,23 +11,52 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+
+env = environ.Env(
+    DEBUG=(bool),
+    SECRET_KEY=(str),
+    DOMAIN_NAME=(str),
+
+    REDIS_HOST=(str),
+    REDIS_PORT=(str),
+
+    DB_NAME=(str),
+    DB_USER=(str),
+    DB_PASSWORD=(str),
+    DB_HOST=(str),
+    DB_PORT=(str),
+
+    EMAIL_HOST=(str),
+    EMAIL_PORT=(int),
+    EMAIL_HOST_USER=(str),
+    EMAIL_HOST_PASSWORD=(str),
+    EMAIL_USE_SSL=(bool),
+
+    STRIPE_PUBLIC_KEY=(str),
+    STRIPE_SECRET_KEY=(str),
+    STRIPE_WEBHOOK_SECRET=(str),
+
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^y$&da@w(xzk$lcg2_zap&ryl!)ac=a18kn%%!n9_($4a04$)$'
-
+SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
-DOMAIN_NAME = 'http://127.0.0.1:8000'
+DOMAIN_NAME = env('DOMAIN_NAME')
 
 
 # Application definition
@@ -99,7 +128,7 @@ DATABASES = {
         'NAME': 'store_db',
         'USER': 'store_username',
         'PASSWORD': 'store_password',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -158,13 +187,15 @@ LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'arhatamanjol@yandex.kz'
-EMAIL_HOST_PASSWORD = 'nypjbeebukzjmhlb'
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_PORT = env('EMAIL_PORT')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+    EMAIL_USE_TLS = False
 
 # oauth2
 AUTHENTICATION_BACKENDS = [
@@ -182,12 +213,15 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# REDIS VAR
+REDIS_HOST = env('REDIS_HOST')
+REDIS_PORT = env('REDIS_PORT')
 
 # CASH FOR REDIS
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001',
+        'LOCATION': f'redis://default:{REDIS_HOST}:{REDIS_PORT}/0',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -195,10 +229,10 @@ CACHES = {
 }
 
 # CELERY
-CELERY_BROKER_URL = 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001/0'
-CELERY_RESULT_BACKEND = 'redis://default:jX8RGZs3UdLWiIWNPBqIaPtquoHvV8Qo@redis-10001.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10001/0'
+CELERY_BROKER_URL = f'redis://default:{REDIS_PORT}:{REDIS_HOST}/0'
+CELERY_RESULT_BACKEND = 'redis://default:{REDIS_PORT}:{REDIS_HOST}/0'
 
 # STRIPE
-STRIPE_PUBLIC_KEY = 'pk_test_51RiVVk2LaTdSMOWyzR44iKZovaSgOAVlMJkeFx3Vc2fjg8o3D4t2qjrmrWhb3UnQ6goctLPGuZj6RzR8WQSdrLP4007u6DOQII'
-STRIPE_SECRET_KEY = 'sk_test_51RiVVk2LaTdSMOWyrXubRuS23ymebQKYcNfomDT93SC1O96UAl4hFB5mUZfbwyylOh6YgIPNnuMuizCbDVJszbhv00t4CVMyrA'
-STRIPE_WEBHOOK_SECRET = 'whsec_caddf2e7682cf374caadb03e119424aa2c2983630f82353c6c82c2ee08090add'
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
