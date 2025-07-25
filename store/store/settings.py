@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'debug_toolbar',
     'django.contrib.humanize',
+    'django_extensions'
 
 ]
 
